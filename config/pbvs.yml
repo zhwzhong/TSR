@@ -1,0 +1,3 @@
+dataset: PBVS
+show_every: 20
+in_channels: 1
