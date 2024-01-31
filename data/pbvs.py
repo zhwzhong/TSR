@@ -16,7 +16,7 @@ from data.extra import a
 from torch.utils import data
 from utils import imresize, down_sample, torch_psnr
 
-def get_img_list(attr, scale, extra_data):
+def get_img_list(attr, scale):
     val_list = [str(img_name).zfill(5) + '.npy' for img_name in val1_list]
 
     root_path = None
@@ -41,7 +41,7 @@ class PBVS(data.Dataset):
         self.args = args
         self.attr = attr
         self.img_dict = {}
-        self.img_list = get_img_list(attr, args.scale, args.extra_data)
+        self.img_list = get_img_list(attr, args.scale)
 
     def __len__(self):
         return int(self.args.show_every * len(self.img_list)) if self.attr == 'train' else len(self.img_list)
