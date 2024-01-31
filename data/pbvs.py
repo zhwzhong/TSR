@@ -12,7 +12,6 @@ import os
 import glob
 import numpy as np
 from data import augment
-from data.extra import a
 from torch.utils import data
 from utils import imresize, down_sample, torch_psnr
 
