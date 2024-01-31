@@ -16,11 +16,6 @@ from data.extra import a
 from torch.utils import data
 from utils import imresize, down_sample, torch_psnr
 
-
-val1_list = [11, 24, 25, 644, 959, 220, 316, 166, 139, 349, 400, 404, 638, 680, 683, 715, 752, 785, 1, 613]
-val2_list = [109, 120, 142, 150, 189, 295, 710, 794, 912, 925, 674, 704, 712, 711, 743, 751, 800, 857, 968, 998]
-
-
 def get_img_list(attr, scale, extra_data):
     val_list = [str(img_name).zfill(5) + '.npy' for img_name in val1_list]
 
@@ -32,11 +27,6 @@ def get_img_list(attr, scale, extra_data):
     if attr == 'train':
         img_list = list(glob.glob('{}/PBVS/track1/{}/640_flir_hr/*.npy'.format(root_path, attr)))
         img_list = [img_name for img_name in img_list if os.path.basename(img_name) not in val_list]
-        if extra_data:
-            # 只有新加的数据
-            # img_list = ['{}/PBVS/track1/new/640_flir_hr/{}'.format(root_path, name) for name in a]
-            # img_list.extend(['{}/PBVS/track1/new/640_flir_hr/{}'.format(root_path, name) for name in a])
-            img_list.extend(list(glob.glob('{}/PBVS/track1/new/640_flir_hr/*.npy'.format(root_path))))
 
     elif attr == 'val':
         img_list = [os.path.join('{}/PBVS/track1/train/640_flir_hr/'.format(root_path), img_name) for img_name in val_list]
@@ -86,20 +76,3 @@ class PBVS(data.Dataset):
             self.img_dict[img_name] = {'lr_up': lr_up, 'gt_img': np.expand_dims(gt_img, 0), 'img_lr': lr_img}
         return self.img_dict[img_name]['img_lr'], self.img_dict[img_name]['lr_up'], self.img_dict[img_name]['gt_img']
 
-
-# from options import args
-# args.scale = 4
-# args.show_every = 1
-# print(args)
-# from torch.utils.data import DataLoader
-# data = DataLoader(PBVS(args, 'test'), batch_size=1)
-# print('Number of data {}'.format(len(data)))
-# sum_psnr = []
-# for _, sample in enumerate(data):
-#     _, _, h, w = sample['img_gt'].shape
-#     # if h != 256 or w != 256:
-#     #     print(sample['lr_up'].shape, sample['img_gt'].shape, sample['img_name'][0])
-#     psnr = torch_psnr(sample['lr_up'], sample['img_gt'], data_range=1, border=0)
-#     sum_psnr.append(psnr)
-#     # print( psnr)
-# print(np.mean(sum_psnr))
