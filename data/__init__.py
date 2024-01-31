@@ -41,10 +41,3 @@ def get_loader(args, attr):
     data_loader = DataLoaderX(dataset, batch_size=batch_size, num_workers=num_workers, sampler=data_sampler,
                              pin_memory=True, drop_last=(attr == 'train'), shuffle=shuffle)
     return data_loader
-
-# from options import args
-# args.distributed = True
-# data = get_loader(args, 'val')
-#
-# for _, sample in enumerate(data):
-#     print(sample['img_gt'].size())
